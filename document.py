@@ -3,6 +3,8 @@ from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import inch
 from reportlab.platypus import SimpleDocTemplate, Spacer, TopPadder, PageBreak
 from typing import List
+from elements import HeaderElement, CategoryElement, SubtitleElement, BodyElement, \
+    BodyStatementElement, FooterElement, FooterTestsElement
 
 
 class Page():
