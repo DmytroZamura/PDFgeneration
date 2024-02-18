@@ -1,5 +1,6 @@
 from utils import PageMode
 
+# This is a test data about a document pages
 data_pages = [
     {'page_number': 1,
      'mode': PageMode.light,

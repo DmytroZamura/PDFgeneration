@@ -82,7 +82,7 @@ def getStyleSheet(mode: PageMode = PageMode.light):
                                   alignment=TA_RIGHT,
                                   fontSize=15)
                    )
-    stylesheet.add(ParagraphStyle(name='Catetgory',
+    stylesheet.add(ParagraphStyle(name='Category',
                                   parent=stylesheet['Normal'],
                                   fontName='ZagmaMonoTrial',
                                   leading=12,

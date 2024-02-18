@@ -8,15 +8,30 @@ from elements import HeaderElement, CategoryElement, SubtitleElement, BodyElemen
 
 
 class Page():
+    """
+    This class keeps data about the page, creates all page structure and nested content elements.
+    """
     def __init__(self, data, width):
+        """
+        :param data: dictionary with data about page
+        :param width: width of the page. The page use width for drawing elements.
+        """
+        # Mode of the page (dark or light)
         self.mode = data['mode']
         self.page_number = data['page_number']
+
+        # Dynamic classes assignment using data about the page.
+        # Each content element can have different classes for the particular design layout realisation.
         self.header = globals()[data['header']['class_name']](data['header'], width, self.page_number, self.mode)
         self.category = globals()[data['category']['class_name']](data['category'], self.mode)
         self.body = globals()[data['body']['class_name']](data['body'], width, self.page_number, self.mode)
         self.footer = globals()[data['footer']['class_name']](data['footer'], width, self.mode)
 
     def get_story(self):
+        """
+        The page generates own story for all content elements.
+        :return:
+        """
         return [
             self.header.get_content(),
             Spacer(0, 50),
@@ -28,7 +43,16 @@ class Page():
 
 
 class DocumentGenerator():
+    """
+    This is a class generator of pdf documents.
+    This class collects information about pages, generates stories for pages, and builds and saves pdf.
+    """
+
     def __init__(self, output_filename, pages):
+        """
+        :param output_filename: this file name for a new report
+        :param pages: data about pages to prepare report
+        """
         self.doc = SimpleDocTemplate(output_filename, pagesize=letter,
                                      showBoundary=0,
                                      leftMargin=inch * 0.2708333333,
@@ -40,6 +64,9 @@ class DocumentGenerator():
         self.currentMode = PageMode.light
 
     def __get_story(self):
+        """
+        :return: story content elements for all pages of the document
+        """
         story = []
         for i, page in enumerate(self.pages):
             if i > 0:
@@ -48,6 +75,10 @@ class DocumentGenerator():
         return story
 
     def __onSetPageColor(self, canvas, document):
+        """
+        This is a call-back function for starting a new page of the document.
+        """
+        # Change background color for the page
         if (self.currentMode == PageMode.light):
             self.currentMode = PageMode.dark
         else:
@@ -58,4 +89,7 @@ class DocumentGenerator():
                     fill=True, stroke=False)
 
     def build(self):
+        """
+        build document and save document
+        """
         self.doc.build(self.__get_story(), onLaterPages=self.__onSetPageColor)
